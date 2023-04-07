@@ -1,20 +1,27 @@
 import fetchHandler from "@/utils/fetchHandler"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 
-const useFetch = (url,options) => {
-    const [data,setData] = useState([])
+interface IOptions {
+    method?: string,
+    headers?: any,
+    body?: any
+}
+
+
+const useFetch = (url:string,options?:IOptions) => {
+    const [data,setData] = useState<any>([])
     const [loading,setLoading] = useState(true)
 
-    const handleFetch = async () => {
+    const handleFetch = useCallback(async () => {
         setLoading(true)
-        const data = await fetchHandler(url,options)
+        const data:any = await fetchHandler(url,options)
         setData(data)
         setLoading(false)
-    }
+    },[url,options])
     
     useEffect(() => {
         handleFetch()
-    },[])
+    },[handleFetch])
 
 
     return [data,loading]

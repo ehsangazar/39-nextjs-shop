@@ -1,14 +1,21 @@
-const fetchHandler = async (url, options={}) => {
-    let response = {}
+interface IOptions {
+    method?: string,
+    headers?: any,
+    body?: any
+}
+
+
+const fetchHandler = async (url:string, options?:IOptions) => {
+    let response:any = {}
     let data = {}
     const newOptions = {
-        method: options.method || 'GET',
+        method: options?.method || 'GET',
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            ...options.headers,
+            ...options?.headers,
         },
-        body: options.body ? JSON.stringify(options.body) : undefined,
+        body: options?.body ? JSON.stringify(options.body) : undefined,
     }
 
     try {
